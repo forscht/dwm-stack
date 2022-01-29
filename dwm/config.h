@@ -6,7 +6,7 @@ static const unsigned int gappx     = 5;        /* gaps size between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "ubuntu:size=12", "fontawesome:size=12" };
+static const char *fonts[]          = { "ubuntu:size=12", "fontawesome5brands:size=10" };
 static const char dmenufont[]       = "ubuntu:size=12";
 //background color
 static const char col_gray1[]       = "#222222";
@@ -26,7 +26,7 @@ static const char *colors[][3]      = {
 
 /* tagging */
 //tag names (upper left)
-static const char *tags[] = { "", "", "", "", "", "","", "", ""  };
+static const char *tags[] = { "", "", "", "", "", "","", "", ""  };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -34,10 +34,11 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "firefox",  NULL,       NULL,       1 << 2,       0,            0 },
+	{ "Firefox-esr",  NULL,       NULL,       1 << 2,       0,            0 },
 	{ "discord",  NULL,       NULL,       1 << 6,       0,            0 },	
-	{ "jetbrains-webstorm", NULL, NULL,   1 << 10,      0,            0 },
-	{ "Thunderbird", NULL,    NULL,       1 << 5,       0,            0 },
+	{ "jetbrains-webstorm", NULL, NULL,   1 << 8,      0,            0 },
+	{ "thunderbird", NULL,    NULL,       1 << 5,       0,            0 },
+	{ "Microsoft Teams - Preview", NULL, NULL, 1<<7,    0,            0 },
 };
 
 /* layout(s) */
@@ -71,13 +72,13 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 //sets st as the default terminal
 static const char *termcmd[]  = { "st", NULL };
 // volume controls for ALSA
-// static const char *upvol[]   = { "amixer", "-q", "set", "Master", "5%+", "unmute", NULL };
-// static const char *downvol[] = { "amixer", "-q", "set", "Master", "5%-", "unmute", NULL };
-// static const char *mutevol[] = { "amixer", "-q", "set", "Master", "toggle", NULL };
+static const char *upvol[]   = { "amixer", "-q", "set", "Master", "5%+", "unmute", NULL };
+static const char *downvol[] = { "amixer", "-q", "set", "Master", "5%-", "unmute", NULL };
+static const char *mutevol[] = { "amixer", "-q", "set", "Master", "toggle", NULL };
 // volume controls for pulse
-static const char *upvol[] = { "/bin/sh", "-c", "pactl set-sink-volume $(pactl get-default-sink) +5%", NULL };
-static const char *downvol[] = { "/bin/sh", "-c", "pactl set-sink-volume $(pactl get-default-sink) -5%", NULL };
-static const char *mutevol[] = { "/bin/sh", "-c", "pactl set-sink-mute $(pactl get-default-sink) toggle", NULL};
+// static const char *upvol[] = { "/bin/sh", "-c", "pactl set-sink-volume $(pactl get-default-sink) +5%", NULL };
+// static const char *downvol[] = { "/bin/sh", "-c", "pactl set-sink-volume $(pactl get-default-sink) -5%", NULL };
+// static const char *mutevol[] = { "/bin/sh", "-c", "pactl set-sink-mute $(pactl get-default-sink) toggle", NULL};
 
 static const char *brightness_up[]  =   { "xbacklight", "-inc", "5", NULL };
 static const char *brightness_down[]  = { "xbacklight", "-dec", "5", NULL };
