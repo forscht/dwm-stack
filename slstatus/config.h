@@ -67,7 +67,8 @@ static const struct arg args[] = {
 	/* function format          argument */
 	{ wifi_essid, "[   %s", "wlan0" },
 	{ netspeed_rx, " %sB/s ]  ", "wlan0" },
-	{ load_avg, "[   %s ]  ", NULL },
+	{ load_avg, "[   %s  ", NULL },
+	{ temp, "%s°C ] ", "/sys/class/thermal/thermal_zone4/temp" },
 	{ ram_used, "[   %s ]  ", NULL },
 	{ run_command, "[  %4s ] ", "amixer sget Master | grep 'Front Left: Playback' | cut -d '[' -f2 | cut -d ']' -f1" },
 	{ battery_perc, "[  %s", "BAT0" },

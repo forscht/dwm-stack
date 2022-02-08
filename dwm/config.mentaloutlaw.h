@@ -9,7 +9,17 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "ubuntu:size=12", "fontawesome5brands:size=10" };
 static const char dmenufont[]       = "ubuntu:size=12";
 
-#include "theme.h"
+//inactive window border color
+static const char normbordercolor[] = "#444444";
+//background color
+static const char normbgcolor[]     = "#222222";
+//font color
+static const char normfgcolor[]     = "#bbbbbb";
+//current tag and current window font color
+static const char selfgcolor[]      = "#eeeeee";
+//inactive window border color
+static const char selbordercolor[]  = "#f59542";
+static const char selbgcolor[]      = "#f59542";
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
@@ -61,8 +71,6 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *dssh[] =     { "dssh",      "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL }; 
-static const char *dppng[] =    { "dppng",     "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 
 //sets st as the default terminal
 static const char *termcmd[]  = { "st", NULL };
@@ -84,8 +92,6 @@ static const char *prntscrn[] = { "flameshot", "gui" };
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = dssh } },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = dppng } },
 	{ MODKEY|ShiftMask,	        XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_t,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },

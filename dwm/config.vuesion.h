@@ -8,15 +8,22 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "ubuntu:size=12", "fontawesome5brands:size=10" };
 static const char dmenufont[]       = "ubuntu:size=12";
-
-#include "theme.h"
-
+//background color
+static const char col1[]       = "#202831";
+//inactive window border color
+static const char col2[]       = "#55616c";
+//font color
+static const char col3[]       = "#eeeeee";
+//current tag and current window font color
+static const char col4[]       = "#ffffff";
+//Top bar second color (blue) and active window border color
+static const char col5[]        = "#55616C";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
-	[SchemeSel]  = { selfgcolor, selbgcolor,  selbordercolor  },
+	/*               fg    bg   border   */
+	[SchemeNorm] = { col3, col1, col2 },
+	[SchemeSel]  = { col4, col5,  col4  },
 };
-			
+
 /* tagging */
 //tag names (upper left)
 static const char *tags[] = { "", "", "", "", "", "","", "", ""  };
@@ -60,9 +67,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *dssh[] =     { "dssh",      "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL }; 
-static const char *dppng[] =    { "dppng",     "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col1, "-nf", col3, "-sb", col5, "-sf", col4, NULL };
 
 //sets st as the default terminal
 static const char *termcmd[]  = { "st", NULL };
@@ -84,8 +89,6 @@ static const char *prntscrn[] = { "flameshot", "gui" };
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = dssh } },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = dppng } },
 	{ MODKEY|ShiftMask,	        XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_t,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
