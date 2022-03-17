@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PPNG_SERVER="https://ppng.io/"
-RANDOM_STRING=$(echo $RANDOM | md5sum | head -c 20; echo;)
+RANDOM_STRING=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 30 ; echo '')
 
 PPNG_URL="${PPNG_SERVER}/${RANDOM_STRING}"
 
@@ -10,7 +10,7 @@ target="$(realpath .)"
 while true; do
 	p="$prompt"
 	[ -z "$p" ] && p="$target"
-	sel="$(ls -1a "$target" |grep -v '^\.$' | dmenu -p "$p" -l 25 "$@" )"
+	sel="$(ls -1 "$target" |grep -v '^\.$' | dmenu -p "$p" -l 25 "$@" )"
 	ec=$?
 	[ "$ec" -ne 0 ] && exit $ec
 
@@ -24,7 +24,7 @@ while true; do
 	if [ -e "$newt" ]; then
 		target="$newt"
 		if [ ! -d "$target" ]; then
-            		echo $PPNG_URL | xclip -sel clip
+            		echo "curl $PPNG_URL > $sel" | xclip -sel clip
             		timeout 30m cat $target | curl --header "Content-Disposition:attachment; filename="${sel}"" -T - "$PPNG_URL"
 			exit 0
 		fi
