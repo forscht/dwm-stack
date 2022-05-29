@@ -92,4 +92,5 @@ heroku-reg(){
     heroku git:remote -a ${1} -r $REMOTE
 }
 
-source ~/.local/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source ~/.local/zsh-autosuggestions/zsh-autosuggestions.zsh
+# alias  wi="iwctl station wlan0"
