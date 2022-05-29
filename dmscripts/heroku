@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+set -e
+
+target="$(realpath /home/forscht/Code)"
+opts='Deploy Branch\nView Logs\nDownload env\nAdd Remote'
+environments='dev dev2 stage stage2'
+
+function exec() {
+    # shellcheck disable=SC2010
+    sel="$(ls -1 "$target" | grep -v '^\.$' | dmenu -p "Select Repo" -l 25 "$@")"
+    cd "$target/$sel" || exit 0
+
+    # Check if directory has heroku remote else exit
+    remotes=$(git remote -v | grep heroku | cut -d$'\t' -f1 | uniq)
+    [ -z "$remotes" ] && opts='Add Remote'
+
+    # Prompt for options
+    selected=$(echo -e "$opts" | dmenu -p "Select Option" -i -m 0 -l 10 "$@")
+
+    # Handle Deployment
+    if [ "$selected" = "Deploy Branch" ]; then
+      remote=$(echo "$remotes" | dmenu -p 'Select Environment' -i -m 0 -l 5 "$@")
+      branch=$(git for-each-ref --format='%(refname:short)' refs/heads/ | dmenu -p 'Select Branch' -l 10 "$@")
+      st -e git push -f "$remote" "${branch}:master"
+    fi
+
+    # Handle View Logs
+    if [ "$selected" = "View Logs" ]; then
+      remote=$(echo "$remotes" | dmenu -p 'Select Environment' -i -m 0 -l 5 "$@")
+      app=$(git remote -v | grep "$remote" | grep push | cut -d '/' -f 4 | cut -d ' ' -f 1 | cut -d '.' -f 1)
+      st -e heroku logs -t -a "$app" # Update terminal app here
+    fi
+
+    # Handle View Logs
+    if [ "$selected" = "Download env" ]; then
+      remote=$(echo "$remotes" | dmenu -p 'Select Environment' -i -m 0 -l 5 "$@")
+      app=$(git remote -v | grep "$remote" | grep push | cut -d '/' -f 4 | cut -d ' ' -f 1 | cut -d '.' -f 1)
+      heroku config -a "${app}" | sed 's/:/=/' >> "${remote}.env"
+    fi
+
+    # Add Heroku Git Remote
+    if [ "$selected" = "Add Remote" ]; then
+      app=$(dmenu -p "Type APP Name" -m 0 "$@" <&-)
+      env=$(echo "$app" | cut -d '-' -f1)
+      match=$(echo "$environments" | grep -w "$env" || true)
+      [ -z "$match" ] && env=$(dmenu -p -m 0 "Type Environment Name" "$@" <&-)
+      heroku git:remote -a "$app" -r "heroku-$env"
+      # shellcheck disable=SC2068
+      exec $@
+    fi
+}
+
+# shellcheck disable=SC2068
+exec $@
